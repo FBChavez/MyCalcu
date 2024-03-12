@@ -144,20 +144,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String equationText = equation.getText().toString();
-                char lastChar = equationText.charAt(equationText.length() - 1);
 
-                if(lastChar != '.') {
+                if(equationText.toString().isEmpty() || (equationText.charAt(equationText.length()-1) != '.')) {
                     String point = btnPoint.getText().toString();
 
                     setPlaceHolders(point);
                 }
+
+//                char lastChar = equationText.charAt(equationText.length() - 1);
+//
+//                if(lastChar != '.') {
+//                    String point = btnPoint.getText().toString();
+//
+//                    setPlaceHolders(point);
+//                }
             }
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.getText().toString().isEmpty()) {
+                if (equation.getText().toString().isEmpty() || (equation.getText().charAt(equation.length()-1) == '.')) {
                     return;
                 }
 
@@ -165,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
                 if (!isOperator(lastChar)) {
-                    equation.setText(equation.getText() + btnAdd.getText().toString());
+                    equation.setText(equation.getText() + "+");
                 } else {
-                    equation.setText(equationText.substring(0, equationText.length() - 1) + btnAdd.getText().toString());
+                    equation.setText(equationText.substring(0, equationText.length() - 1) + "+");
                 }
 
                 if(!numB.toString().isEmpty()) {
@@ -179,14 +186,14 @@ public class MainActivity extends AppCompatActivity {
                     result = (double) 0;
                 }
 
-                op = btnAdd.getText().toString();
+                op = "+";
             }
         });
 
         btnSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.getText().toString().isEmpty()) {
+                if (equation.getText().toString().isEmpty() || (equation.getText().charAt(equation.length()-1) == '.')) {
                     return;
                 }
 
@@ -194,10 +201,21 @@ public class MainActivity extends AppCompatActivity {
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
                 if (!isOperator(lastChar)) {
-                    equation.setText(equation.getText() + btnSubtract.getText().toString());
+                    equation.setText(equation.getText() + "-");
                 } else {
-                    equation.setText(equationText.substring(0, equationText.length() - 1) + btnSubtract.getText().toString());
+                    equation.setText(equationText.substring(0, equationText.length() - 1) + "-");
+//                    substring ([starting_index], [end_index - 1]);
+//                    20+3- 5 length : balig "20+3" + "-"
+//                    substring (0, (5-1) - 1) (0, 3)
                 }
+
+                // 20
+                // 20+  : Store 20 in numA, store + in op
+                // 20-  : change the op to -
+                // 20-5 :
+                // 20-5* : Store 5 in numB, solve 20-5 and store in result, then store result in numA && reset numB and result
+                // 20-5*2 :
+                // 20-5*2 = : Solve using (PE) MDAS
 
                 if(!numB.toString().isEmpty()) {
                     result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
@@ -208,14 +226,14 @@ public class MainActivity extends AppCompatActivity {
                     result = (double) 0;
                 }
 
-                op = btnSubtract.getText().toString();
+                op = "-";
             }
         });
 
         btnMultiply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.getText().toString().isEmpty()) {
+                if (equation.getText().toString().isEmpty() || (equation.getText().charAt(equation.length()-1) == '.')) {
                     return;
                 }
 
@@ -223,9 +241,9 @@ public class MainActivity extends AppCompatActivity {
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
                 if (!isOperator(lastChar)) {
-                    equation.setText(equation.getText() + btnMultiply.getText().toString());
+                    equation.setText(equation.getText() + "*");
                 } else {
-                    equation.setText(equationText.substring(0, equationText.length() - 1) + btnMultiply.getText().toString());
+                    equation.setText(equationText.substring(0, equationText.length() - 1) + "*");
                 }
 
                 if(!numB.toString().isEmpty()) {
@@ -237,24 +255,24 @@ public class MainActivity extends AppCompatActivity {
                     result = (double) 0;
                 }
 
-                op = btnMultiply.getText().toString();
+                op = "*";
             }
         });
 
         btnDivide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.getText().toString().isEmpty()) {
-                    return; // Don't allow operation as the first input
+                if (equation.getText().toString().isEmpty() || (equation.getText().charAt(equation.length()-1) == '.')) {
+                    return;
                 }
 
                 String equationText = equation.getText().toString();
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
                 if (!isOperator(lastChar)) {
-                    equation.setText(equation.getText() + btnDivide.getText().toString());
+                    equation.setText(equation.getText() + "/");
                 } else {
-                    equation.setText(equationText.substring(0, equationText.length() - 1) + btnDivide.getText().toString());
+                    equation.setText(equationText.substring(0, equationText.length() - 1) + "/");
                 }
 
                 if(!numB.toString().isEmpty()) {
@@ -266,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     result = (double) 0;
                 }
 
-                op = btnDivide.getText().toString();
+                op = "/";
             }
         });
 
@@ -275,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String expression = equation.getText().toString();
                 if (expression.isEmpty() || isOperator(expression.charAt(expression.length() - 1))) {
-                    return; // Don't allow equals if the equation ends with an operator
+                    return;
                 }
 
                 evaluateExpression(expression);
@@ -292,12 +310,18 @@ public class MainActivity extends AppCompatActivity {
                 op = "";
                 result = null;
 
-                // Clear the stacks
                 numbersStack.clear();
                 operationsStack.clear();
             }
         });
     }
+
+    // Click 1 : equation text "1" && store at numA
+    // Click 2 : concat text "2" at equation && concatenate at numA; "1" + "2" = "12"
+    // Click + : concat text "+" at equation && store at op
+    // Click - : update/change the last index of equation to "-" && change op
+    // Click 3 :
+    //
 
     private void setPlaceHolders(String num) {
         equation.setText(equation.getText() + num);
@@ -329,9 +353,7 @@ public class MainActivity extends AppCompatActivity {
         return (double) 0;
     }
 
-
     private void evaluateExpression(String expression) {
-        // Clear the previous result
         numbersStack.clear();
         operationsStack.clear();
 
@@ -340,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
         while (i < n) {
             if (Character.isDigit(expression.charAt(i))) {
                 StringBuilder num = new StringBuilder();
-                while (i < n && Character.isDigit(expression.charAt(i))) {
+                while (i < n && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
                     num.append(expression.charAt(i));
                     i++;
                 }
@@ -360,7 +382,6 @@ public class MainActivity extends AppCompatActivity {
             performOperation();
         }
 
-        // Display the result in the EditText
         if (!numbersStack.isEmpty()) {
             numberPlaceHolder.setText(String.valueOf(numbersStack.pop()));
         }
@@ -383,25 +404,25 @@ public class MainActivity extends AppCompatActivity {
         double a = numbersStack.pop();
         char operation = operationsStack.pop();
 
-        double result = 0;
+        double res = 0;
         switch (operation) {
             case '+':
-                result = a + b;
+                res = a + b;
                 break;
             case '-':
-                result = a - b;
+                res = a - b;
                 break;
             case '*':
-                result = a * b;
+                res = a * b;
                 break;
             case '/':
                 if (b != 0) {
-                    result = a / b;
+                    res = a / b;
                 } else {
-                    // Handle division by zero error
+                    numberPlaceHolder.setText("MATH ERROR");
                 }
                 break;
         }
-        numbersStack.push(result);
+        numbersStack.push(res);
     }
 }

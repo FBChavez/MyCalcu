@@ -10,14 +10,14 @@
     <string name="no_8">8</string>
     <string name="no_9">9</string>
     <string name="no_0">0</string>
-    <string name="no_00">00</string>
+<!--    <string name="no_00">00</string>-->
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="times">*</string>
     <string name="divide">/</string>
     <string name="equals">=</string>
-    <string name="percent">%</string>
+<!--    <string name="percent">%</string>-->
     <string name="point">.</string>
     <string name="clear">clr</string>
-    <string name="back">back</string>
+<!--    <string name="back">back</string>-->
 </resources>
