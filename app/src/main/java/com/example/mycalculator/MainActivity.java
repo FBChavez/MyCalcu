@@ -11,16 +11,14 @@ import android.widget.TextView;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear;
-    Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnPoint;
-    TextView equation;
-    EditText numberPlaceHolder;
-    String numA = "", numB = "", op = "";
-
-    Double result;
-
-    Stack<Double> numbersStack;
-    Stack<Character> operationsStack;
+    private Button btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear;
+    private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnPoint;
+    private TextView equation;
+    private EditText numberPlaceHolder;
+    private String numA = "", numB = "", op = "";
+    private Double result;
+    private Stack<Double> numbersStack;
+    private Stack<Character> operationsStack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         btnPoint = findViewById(R.id.pointbtn);
 
         numberPlaceHolder = (EditText) findViewById(R.id.editNum);
-
         equation = (TextView) findViewById(R.id.equationString);
 
         numbersStack = new Stack<>();
@@ -57,15 +54,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num0 = btn0.getText().toString();
-                equation.setText(equation.getText() + num0);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num0);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num0);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num0);
             }
         });
 
@@ -73,16 +63,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num1 = btn1.getText().toString();
-                equation.setText(equation.getText() + num1);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num1);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num1);
-                    numberPlaceHolder.setText(numB);
-                }
-
+                setPlaceHolders(num1);
             }
         });
 
@@ -90,15 +72,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num2 = btn2.getText().toString();
-                equation.setText(equation.getText() + num2);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num2);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num2);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num2);
             }
         });
 
@@ -106,15 +81,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num3 = btn3.getText().toString();
-                equation.setText(equation.getText() + num3);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num3);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num3);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num3);
             }
         });
 
@@ -122,15 +90,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num4 = btn4.getText().toString();
-                equation.setText(equation.getText() + num4);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num4);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num4);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num4);
             }
         });
 
@@ -138,15 +99,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num5 = btn5.getText().toString();
-                equation.setText(equation.getText() + num5);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num5);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num5);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num5);
             }
         });
 
@@ -154,15 +108,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num6 = btn6.getText().toString();
-                equation.setText(equation.getText() + num6);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num6);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num6);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num6);
             }
         });
 
@@ -170,15 +117,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num7 = btn7.getText().toString();
-                equation.setText(equation.getText() + num7);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num7);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num7);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num7);
             }
         });
 
@@ -186,15 +126,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num8 = btn8.getText().toString();
-                equation.setText(equation.getText() + num8);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num8);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num8);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num8);
             }
         });
 
@@ -202,15 +135,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String num9 = btn9.getText().toString();
-                equation.setText(equation.getText() + num9);
 
-                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                    numA = (numA + num9);
-                    numberPlaceHolder.setText(numA);
-                } else {
-                    numB = (numB + num9);
-                    numberPlaceHolder.setText(numB);
-                }
+                setPlaceHolders(num9);
             }
         });
 
@@ -222,15 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if(lastChar != '.') {
                     String point = btnPoint.getText().toString();
-                    equation.setText(equation.getText() + point);
 
-                    if(op.toString().isEmpty() && numB.toString().isEmpty()) {
-                        numA = (numA + point);
-                        numberPlaceHolder.setText(numA);
-                    } else {
-                        numB = (numB + point);
-                        numberPlaceHolder.setText(numB);
-                    }
+                    setPlaceHolders(point);
                 }
             }
         });
@@ -239,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (equation.getText().toString().isEmpty()) {
-                    return; // Don't allow operation as the first input
+                    return;
                 }
 
                 String equationText = equation.getText().toString();
@@ -268,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (equation.getText().toString().isEmpty()) {
-                    return; // Don't allow operation as the first input
+                    return;
                 }
 
                 String equationText = equation.getText().toString();
@@ -297,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (equation.getText().toString().isEmpty()) {
-                    return; // Don't allow operation as the first input
+                    return;
                 }
 
                 String equationText = equation.getText().toString();
@@ -366,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Clear the equation and number placeholder
                 equation.setText("");
                 numberPlaceHolder.setText("");
                 numA = "";
@@ -381,6 +299,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setPlaceHolders(String num) {
+        equation.setText(equation.getText() + num);
+
+        if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+            numA = (numA + num);
+            numberPlaceHolder.setText(numA);
+        } else {
+            numB = (numB + num);
+            numberPlaceHolder.setText(numB);
+        }
+    }
     private Double calculateForInline(Double num1, Double num2, String op) {
         switch(op) {
             case "+":
