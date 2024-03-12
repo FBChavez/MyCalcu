@@ -321,18 +321,23 @@ public class MainActivity extends AppCompatActivity {
     // Click + : concat text "+" at equation && store at op
     // Click - : update/change the last index of equation to "-" && change op
     // Click 3 :
-    //
 
     private void setPlaceHolders(String num) {
-        equation.setText(equation.getText() + num);
-
-        if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+        if(op.isEmpty() && numB.isEmpty()) {
+            if(numA.contains(".") && num.equals(".")) {
+                return;
+            }
             numA = (numA + num);
             numberPlaceHolder.setText(numA);
         } else {
+            if(numB.contains(".") && num.equals(".")) {
+                return;
+            }
             numB = (numB + num);
             numberPlaceHolder.setText(numB);
         }
+
+        equation.setText(equation.getText() + num);
     }
     private Double calculateForInline(Double num1, Double num2, String op) {
         switch(op) {
