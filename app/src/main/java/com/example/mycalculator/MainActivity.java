@@ -15,7 +15,9 @@ public class MainActivity extends AppCompatActivity {
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnPoint;
     TextView equation;
     EditText numberPlaceHolder;
-    Double con1, con2, result;
+    String numA = "", numB = "", op = "";
+
+    Double result;
 
     Stack<Double> numbersStack;
     Stack<Character> operationsStack;
@@ -56,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num0 = btn0.getText().toString();
                 equation.setText(equation.getText() + num0);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num0);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num0);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -64,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num1 = btn1.getText().toString();
                 equation.setText(equation.getText() + num1);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num1);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num1);
+                    numberPlaceHolder.setText(numB);
+                }
+
             }
         });
 
@@ -72,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num2 = btn2.getText().toString();
                 equation.setText(equation.getText() + num2);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num2);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num2);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -80,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num3 = btn3.getText().toString();
                 equation.setText(equation.getText() + num3);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num3);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num3);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -88,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num4 = btn4.getText().toString();
                 equation.setText(equation.getText() + num4);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num4);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num4);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -96,6 +139,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num5 = btn5.getText().toString();
                 equation.setText(equation.getText() + num5);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num5);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num5);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -104,6 +155,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num6 = btn6.getText().toString();
                 equation.setText(equation.getText() + num6);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num6);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num6);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -112,6 +171,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num7 = btn7.getText().toString();
                 equation.setText(equation.getText() + num7);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num7);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num7);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -120,6 +187,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num8 = btn8.getText().toString();
                 equation.setText(equation.getText() + num8);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num8);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num8);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
@@ -128,14 +203,35 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String num9 = btn9.getText().toString();
                 equation.setText(equation.getText() + num9);
+
+                if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                    numA = (numA + num9);
+                    numberPlaceHolder.setText(numA);
+                } else {
+                    numB = (numB + num9);
+                    numberPlaceHolder.setText(numB);
+                }
             }
         });
 
         btnPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String point = btnPoint.getText().toString();
-                equation.setText(equation.getText() + point);
+                String equationText = equation.getText().toString();
+                char lastChar = equationText.charAt(equationText.length() - 1);
+
+                if(lastChar != '.') {
+                    String point = btnPoint.getText().toString();
+                    equation.setText(equation.getText() + point);
+
+                    if(op.toString().isEmpty() && numB.toString().isEmpty()) {
+                        numA = (numA + point);
+                        numberPlaceHolder.setText(numA);
+                    } else {
+                        numB = (numB + point);
+                        numberPlaceHolder.setText(numB);
+                    }
+                }
             }
         });
 
@@ -149,13 +245,22 @@ public class MainActivity extends AppCompatActivity {
                 String equationText = equation.getText().toString();
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
-                // Check if the last character is an operator
                 if (!isOperator(lastChar)) {
                     equation.setText(equation.getText() + btnAdd.getText().toString());
                 } else {
-                    // Replace the last operator with the new one
                     equation.setText(equationText.substring(0, equationText.length() - 1) + btnAdd.getText().toString());
                 }
+
+                if(!numB.toString().isEmpty()) {
+                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
+                    numberPlaceHolder.setText(String.valueOf(result));
+
+                    numA = String.valueOf(result);
+                    numB = "";
+                    result = (double) 0;
+                }
+
+                op = btnAdd.getText().toString();
             }
         });
 
@@ -169,13 +274,22 @@ public class MainActivity extends AppCompatActivity {
                 String equationText = equation.getText().toString();
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
-                // Check if the last character is an operator
                 if (!isOperator(lastChar)) {
                     equation.setText(equation.getText() + btnSubtract.getText().toString());
                 } else {
-                    // Replace the last operator with the new one
                     equation.setText(equationText.substring(0, equationText.length() - 1) + btnSubtract.getText().toString());
                 }
+
+                if(!numB.toString().isEmpty()) {
+                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
+                    numberPlaceHolder.setText(String.valueOf(result));
+
+                    numA = String.valueOf(result);
+                    numB = "";
+                    result = (double) 0;
+                }
+
+                op = btnSubtract.getText().toString();
             }
         });
 
@@ -189,13 +303,22 @@ public class MainActivity extends AppCompatActivity {
                 String equationText = equation.getText().toString();
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
-                // Check if the last character is an operator
                 if (!isOperator(lastChar)) {
                     equation.setText(equation.getText() + btnMultiply.getText().toString());
                 } else {
-                    // Replace the last operator with the new one
                     equation.setText(equationText.substring(0, equationText.length() - 1) + btnMultiply.getText().toString());
                 }
+
+                if(!numB.toString().isEmpty()) {
+                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
+                    numberPlaceHolder.setText(String.valueOf(result));
+
+                    numA = String.valueOf(result);
+                    numB = "";
+                    result = (double) 0;
+                }
+
+                op = btnMultiply.getText().toString();
             }
         });
 
@@ -209,13 +332,22 @@ public class MainActivity extends AppCompatActivity {
                 String equationText = equation.getText().toString();
                 char lastChar = equationText.charAt(equationText.length() - 1);
 
-                // Check if the last character is an operator
                 if (!isOperator(lastChar)) {
                     equation.setText(equation.getText() + btnDivide.getText().toString());
                 } else {
-                    // Replace the last operator with the new one
                     equation.setText(equationText.substring(0, equationText.length() - 1) + btnDivide.getText().toString());
                 }
+
+                if(!numB.toString().isEmpty()) {
+                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
+                    numberPlaceHolder.setText(String.valueOf(result));
+
+                    numA = String.valueOf(result);
+                    numB = "";
+                    result = (double) 0;
+                }
+
+                op = btnDivide.getText().toString();
             }
         });
 
@@ -237,6 +369,10 @@ public class MainActivity extends AppCompatActivity {
                 // Clear the equation and number placeholder
                 equation.setText("");
                 numberPlaceHolder.setText("");
+                numA = "";
+                numB = "";
+                op = "";
+                result = null;
 
                 // Clear the stacks
                 numbersStack.clear();
@@ -244,6 +380,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private Double calculateForInline(Double num1, Double num2, String op) {
+        switch(op) {
+            case "+":
+                return num1 + num2;
+            case "-":
+                return num1 - num2;
+            case "*":
+                return num1 * num2;
+            case "/":
+                try {
+                    return num1 / num2;
+                } catch (ArithmeticException a) {
+                    numberPlaceHolder.setText("MATH ERROR");
+                }
+        }
+
+        return (double) 0;
+    }
+
+
     private void evaluateExpression(String expression) {
         // Clear the previous result
         numbersStack.clear();
@@ -266,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                 operationsStack.push(expression.charAt(i));
                 i++;
             } else {
-                i++; // Ignore spaces
+                i++;
             }
         }
 
