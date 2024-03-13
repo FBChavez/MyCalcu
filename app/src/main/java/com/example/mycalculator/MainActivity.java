@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear;
+    private Button btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear, btnBack;
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnPoint;
     private TextView equation;
     private EditText numberPlaceHolder;
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         btnDivide = findViewById(R.id.dividebtn);
         btnEquals = findViewById(R.id.equalsbtn);
         btnClear = findViewById(R.id.clearbtn);
+        btnBack = findViewById(R.id.backspacebtn);
 
         btn0 = findViewById(R.id.zerobtn);
         btn1 = findViewById(R.id.onebtn);
@@ -312,6 +313,17 @@ public class MainActivity extends AppCompatActivity {
 
                 numbersStack.clear();
                 operationsStack.clear();
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Character lastChar = equation.getText().toString().charAt(equation.length() - 1);
+                equation.setText(equation.getText().toString().substring(0, equation.getText().length() - 1));
+                if(isOperator(lastChar)) {
+
+                }
             }
         });
     }
