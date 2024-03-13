@@ -11,12 +11,13 @@ import android.widget.TextView;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear, btnBack;
+    private Button btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear;
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnPoint;
     private TextView equation;
     private EditText numberPlaceHolder;
-    private String numA = "", numB = "", op = "";
-    private Double result;
+    private String numRes = "", numTemp = "", op = "";
+//    private Double result;
+
     private Stack<Double> numbersStack;
     private Stack<Character> operationsStack;
 
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         btnDivide = findViewById(R.id.dividebtn);
         btnEquals = findViewById(R.id.equalsbtn);
         btnClear = findViewById(R.id.clearbtn);
-        btnBack = findViewById(R.id.backspacebtn);
 
         btn0 = findViewById(R.id.zerobtn);
         btn1 = findViewById(R.id.onebtn);
@@ -178,16 +178,18 @@ public class MainActivity extends AppCompatActivity {
                     equation.setText(equationText.substring(0, equationText.length() - 1) + "+");
                 }
 
-                if(!numB.isEmpty()) {
-                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
-                    numberPlaceHolder.setText(String.valueOf(result));
+                setPlaceHolders("+");
 
-                    numA = String.valueOf(result);
-                    numB = "";
-                    result = (double) 0;
-                }
-
-                op = "+";
+//                if(!numTemp.toString().isEmpty()) {
+//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
+//                    numberPlaceHolder.setText(String.valueOf(result));
+//
+//                    numRes = String.valueOf(result);
+//                    numTemp = "";
+//                    result = (double) 0;
+//                }
+//
+//                op = "+";
             }
         });
 
@@ -210,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
 //                    substring (0, (5-1) - 1) (0, 3)
                 }
 
+                setPlaceHolders("-");
+
                 // 20
                 // 20+  : Store 20 in numA, store + in op
                 // 20-  : change the op to -
@@ -218,16 +222,16 @@ public class MainActivity extends AppCompatActivity {
                 // 20-5*2 :
                 // 20-5*2 = : Solve using (PE) MDAS
 
-                if(!numB.toString().isEmpty()) {
-                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
-                    numberPlaceHolder.setText(String.valueOf(result));
-
-                    numA = String.valueOf(result);
-                    numB = "";
-                    result = (double) 0;
-                }
-
-                op = "-";
+//                if(!numTemp.toString().isEmpty()) {
+//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
+//                    numberPlaceHolder.setText(String.valueOf(result));
+//
+//                    numRes = String.valueOf(result);
+//                    numTemp = "";
+//                    result = (double) 0;
+//                }
+//
+//                op = "-";
             }
         });
 
@@ -247,16 +251,18 @@ public class MainActivity extends AppCompatActivity {
                     equation.setText(equationText.substring(0, equationText.length() - 1) + "*");
                 }
 
-                if(!numB.toString().isEmpty()) {
-                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
-                    numberPlaceHolder.setText(String.valueOf(result));
+                setPlaceHolders("*");
 
-                    numA = String.valueOf(result);
-                    numB = "";
-                    result = (double) 0;
-                }
-
-                op = "*";
+//                if(!numTemp.toString().isEmpty()) {
+//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
+//                    numberPlaceHolder.setText(String.valueOf(result));
+//
+//                    numRes = String.valueOf(result);
+//                    numTemp = "";
+//                    result = (double) 0;
+//                }
+//
+//                op = "*";
             }
         });
 
@@ -276,16 +282,18 @@ public class MainActivity extends AppCompatActivity {
                     equation.setText(equationText.substring(0, equationText.length() - 1) + "/");
                 }
 
-                if(!numB.toString().isEmpty()) {
-                    result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
-                    numberPlaceHolder.setText(String.valueOf(result));
+                setPlaceHolders("/");
 
-                    numA = String.valueOf(result);
-                    numB = "";
-                    result = (double) 0;
-                }
-
-                op = "/";
+//                if(!numTemp.toString().isEmpty()) {
+//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
+//                    numberPlaceHolder.setText(String.valueOf(result));
+//
+//                    numRes = String.valueOf(result);
+//                    numTemp = "";
+//                    result = (double) 0;
+//                }
+//
+//                op = "/";
             }
         });
 
@@ -306,33 +314,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 equation.setText("");
                 numberPlaceHolder.setText("");
-                numA = "";
-                numB = "";
+                numRes = "";
+                numTemp = "";
                 op = "";
-                result = null;
+//                result = null;
 
                 numbersStack.clear();
                 operationsStack.clear();
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                return;
-//                if(equation.getText().toString().isEmpty()) {
-//                    return;
-//                }
-//
-//                Character lastChar = equation.getText().toString().charAt(equation.length() - 1);
-//                equation.setText(equation.getText().toString().substring(0, equation.getText().length() - 1));
-//                if(!isOperator(lastChar)) {
-//                    if(!op.isEmpty()) {
-//                        numB = numB.substring(0, numB.length() - 1);
-//                    } else {
-//                        numA = numA.substring(0, numA.length() - 1);
-//                    }
-//                }
             }
         });
     }
@@ -343,82 +331,57 @@ public class MainActivity extends AppCompatActivity {
     // Click - : update/change the last index of equation to "-" && change op
     // Click 3 :
 
-    private void setPlaceHolders(String num) {
-//        if(op.isEmpty() && numB.isEmpty()) {
-//            if(numA.contains(".") && num.equals(".")) {
-//                return;
-//            }
-//            numA = (numA + num);
-//            numberPlaceHolder.setText(numA);
-//        } else {
-//            if(numB.contains(".") && num.equals(".")) {
-//                return;
-//            }
-//            numB = (numB + num);
-//            numberPlaceHolder.setText(numB);
-//        }
-//        equation.setText(equation.getText() + num);
-        if(op.isEmpty() && numB.isEmpty()) {
-            if(num.equals(".")) {
-                if (equation.getText().toString().isEmpty()) {
-                    numA = (numA + num);
-                    numberPlaceHolder.setText(numA);
-                    return;
-                }
-                if(numA.charAt(numA.length() - 1) == '.') {
-                    equation.setText(equation.getText().toString().substring(0, equation.length() - 1));
-                    numA = numA.substring(0, numA.length() - 1);
-                    return;
-                }
-                if(numA.contains(".")) {
-                    return;
-                }
+    private void setPlaceHolders(String str) {
+        // first number
+        if(op.isEmpty() && numTemp.isEmpty() && !isOperator(str.charAt(0))) {
+            if(numRes.contains(".") && str.equals(".")) {
+                return;
             }
-            numA = (numA + num);
-            numberPlaceHolder.setText(numA);
-        } else {
-            if(num.equals(".")) {
-                if (equation.getText().toString().isEmpty()) {
-                    numB = (numB + num);
-                    numberPlaceHolder.setText(numA);
-                    return;
-                }
-                if(numB.charAt(numB.length() - 1) == '.') {
-                    equation.setText(equation.getText().toString().substring(0, equation.length() - 1));
-                    numB = numB.substring(0, numB.length() - 1);
-                    return;
-                }
-                if(numB.contains(".")) {
-                    return;
-                }
-            }
-            numB = (numB + num);
-            numberPlaceHolder.setText(numB);
+            numRes = (numRes + str);
+            numberPlaceHolder.setText(numRes);
+            equation.setText(equation.getText() + str);
+            return;
         }
 
-        equation.setText(equation.getText() + num);
+        // second number onwards or operation
+        if(isOperator(str.charAt(0))) {
+            op = str;
+            numRes = numberPlaceHolder.getText().toString();
+            numTemp = "";
+            op = str;
+        } else if (!isOperator(str.charAt(0))) {
+            if(numTemp.contains(".") && str.equals(".")) {
+                return;
+            }
+
+            numTemp = (numTemp + str);
+            calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op);
+            equation.setText(equation.getText() + str);
+        }
     }
+    private void calculateForInline(Double num1, Double num2, String op) {
+        Double temp = (double) 0;
 
-
-
-
-    private Double calculateForInline(Double num1, Double num2, String op) {
         switch(op) {
             case "+":
-                return num1 + num2;
+                temp = num1 + num2;
+                break;
             case "-":
-                return num1 - num2;
+                temp = num1 - num2;
+                break;
             case "*":
-                return num1 * num2;
+                temp = num1 * num2;
+                break;
             case "/":
                 try {
-                    return num1 / num2;
+                    temp = num1 / num2;
                 } catch (ArithmeticException a) {
                     numberPlaceHolder.setText("MATH ERROR");
+                    return;
                 }
+                break;
         }
-
-        return (double) 0;
+        numberPlaceHolder.setText(String.valueOf(temp));
     }
 
     private void evaluateExpression(String expression) {
@@ -459,11 +422,6 @@ public class MainActivity extends AppCompatActivity {
         return c == '+' || c == '-' || c == '*' || c == '/';
     }
 
-//    private boolean hasPrecedence(char op1, char op2) {
-//        return (op2 != '(' && op2 != ')') && (op1 != '*' && op1 != '/');
-//    }
-
-
     private boolean hasPrecedence(char op1) {
         return (op1 != '*' && op1 != '/');
     }
@@ -491,7 +449,6 @@ public class MainActivity extends AppCompatActivity {
             case '/':
                 if (b != 0) {
                     res = a / b;
-
                 } else {
                     numberPlaceHolder.setText("MATH ERROR");
                 }
