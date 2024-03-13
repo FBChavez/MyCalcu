@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     equation.setText(equationText.substring(0, equationText.length() - 1) + "+");
                 }
 
-                if(!numB.toString().isEmpty()) {
+                if(!numB.isEmpty()) {
                     result = calculateForInline(Double.parseDouble(numA), Double.parseDouble(numB), op) ;
                     numberPlaceHolder.setText(String.valueOf(result));
 
@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
         int n = expression.length();
         int i = 0;
         while (i < n) {
-            if (Character.isDigit(expression.charAt(i))) {
+            if (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.') {
                 StringBuilder num = new StringBuilder();
                 while (i < n && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
                     num.append(expression.charAt(i));
@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 numbersStack.push(Double.parseDouble(num.toString()));
             } else if (isOperator(expression.charAt(i))) {
-                while (!operationsStack.isEmpty() && hasPrecedence(expression.charAt(i), operationsStack.peek())) {
+                while (!operationsStack.isEmpty() && (hasPrecedence(expression.charAt(i)) || (!hasPrecedence(expression.charAt(i)) && !hasPrecedence(operationsStack.peek())))) {
                     performOperation();
                 }
                 operationsStack.push(expression.charAt(i));
@@ -396,8 +396,13 @@ public class MainActivity extends AppCompatActivity {
         return c == '+' || c == '-' || c == '*' || c == '/';
     }
 
-    private boolean hasPrecedence(char op1, char op2) {
-        return (op2 != '(' && op2 != ')') && (op1 != '*' && op1 != '/');
+//    private boolean hasPrecedence(char op1, char op2) {
+//        return (op2 != '(' && op2 != ')') && (op1 != '*' && op1 != '/');
+//    }
+
+
+    private boolean hasPrecedence(char op1) {
+        return (op1 != '*' && op1 != '/');
     }
 
     private void performOperation() {
@@ -423,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
             case '/':
                 if (b != 0) {
                     res = a / b;
+
                 } else {
                     numberPlaceHolder.setText("MATH ERROR");
                 }
