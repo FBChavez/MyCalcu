@@ -319,11 +319,20 @@ public class MainActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Character lastChar = equation.getText().toString().charAt(equation.length() - 1);
-                equation.setText(equation.getText().toString().substring(0, equation.getText().length() - 1));
-                if(isOperator(lastChar)) {
-
-                }
+                return;
+//                if(equation.getText().toString().isEmpty()) {
+//                    return;
+//                }
+//
+//                Character lastChar = equation.getText().toString().charAt(equation.length() - 1);
+//                equation.setText(equation.getText().toString().substring(0, equation.getText().length() - 1));
+//                if(!isOperator(lastChar)) {
+//                    if(!op.isEmpty()) {
+//                        numB = numB.substring(0, numB.length() - 1);
+//                    } else {
+//                        numA = numA.substring(0, numA.length() - 1);
+//                    }
+//                }
             }
         });
     }
@@ -335,15 +344,53 @@ public class MainActivity extends AppCompatActivity {
     // Click 3 :
 
     private void setPlaceHolders(String num) {
+//        if(op.isEmpty() && numB.isEmpty()) {
+//            if(numA.contains(".") && num.equals(".")) {
+//                return;
+//            }
+//            numA = (numA + num);
+//            numberPlaceHolder.setText(numA);
+//        } else {
+//            if(numB.contains(".") && num.equals(".")) {
+//                return;
+//            }
+//            numB = (numB + num);
+//            numberPlaceHolder.setText(numB);
+//        }
+//        equation.setText(equation.getText() + num);
         if(op.isEmpty() && numB.isEmpty()) {
-            if(numA.contains(".") && num.equals(".")) {
-                return;
+            if(num.equals(".")) {
+                if (equation.getText().toString().isEmpty()) {
+                    numA = (numA + num);
+                    numberPlaceHolder.setText(numA);
+                    return;
+                }
+                if(numA.charAt(numA.length() - 1) == '.') {
+                    equation.setText(equation.getText().toString().substring(0, equation.length() - 1));
+                    numA = numA.substring(0, numA.length() - 1);
+                    return;
+                }
+                if(numA.contains(".")) {
+                    return;
+                }
             }
             numA = (numA + num);
             numberPlaceHolder.setText(numA);
         } else {
-            if(numB.contains(".") && num.equals(".")) {
-                return;
+            if(num.equals(".")) {
+                if (equation.getText().toString().isEmpty()) {
+                    numB = (numB + num);
+                    numberPlaceHolder.setText(numA);
+                    return;
+                }
+                if(numB.charAt(numB.length() - 1) == '.') {
+                    equation.setText(equation.getText().toString().substring(0, equation.length() - 1));
+                    numB = numB.substring(0, numB.length() - 1);
+                    return;
+                }
+                if(numB.contains(".")) {
+                    return;
+                }
             }
             numB = (numB + num);
             numberPlaceHolder.setText(numB);
@@ -351,6 +398,10 @@ public class MainActivity extends AppCompatActivity {
 
         equation.setText(equation.getText() + num);
     }
+
+
+
+
     private Double calculateForInline(Double num1, Double num2, String op) {
         switch(op) {
             case "+":
