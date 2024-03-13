@@ -144,21 +144,9 @@ public class MainActivity extends AppCompatActivity {
         btnPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String equationText = equation.getText().toString();
+                String point = btnPoint.getText().toString();
 
-                if(equationText.toString().isEmpty() || (equationText.charAt(equationText.length()-1) != '.')) {
-                    String point = btnPoint.getText().toString();
-
-                    setPlaceHolders(point);
-                }
-
-//                char lastChar = equationText.charAt(equationText.length() - 1);
-//
-//                if(lastChar != '.') {
-//                    String point = btnPoint.getText().toString();
-//
-//                    setPlaceHolders(point);
-//                }
+                setPlaceHolders(point);
             }
         });
 
@@ -213,25 +201,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 setPlaceHolders("-");
-
-                // 20
-                // 20+  : Store 20 in numA, store + in op
-                // 20-  : change the op to -
-                // 20-5 :
-                // 20-5* : Store 5 in numB, solve 20-5 and store in result, then store result in numA && reset numB and result
-                // 20-5*2 :
-                // 20-5*2 = : Solve using (PE) MDAS
-
-//                if(!numTemp.toString().isEmpty()) {
-//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
-//                    numberPlaceHolder.setText(String.valueOf(result));
-//
-//                    numRes = String.valueOf(result);
-//                    numTemp = "";
-//                    result = (double) 0;
-//                }
-//
-//                op = "-";
             }
         });
 
@@ -252,17 +221,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 setPlaceHolders("*");
-
-//                if(!numTemp.toString().isEmpty()) {
-//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
-//                    numberPlaceHolder.setText(String.valueOf(result));
-//
-//                    numRes = String.valueOf(result);
-//                    numTemp = "";
-//                    result = (double) 0;
-//                }
-//
-//                op = "*";
             }
         });
 
@@ -272,6 +230,11 @@ public class MainActivity extends AppCompatActivity {
                 if (equation.getText().toString().isEmpty() || (equation.getText().charAt(equation.length()-1) == '.')) {
                     return;
                 }
+
+//                if(numberPlaceHolder.getText().toString() == "MATH ERROR") {
+//                    clearAll();
+//                    return;
+//                }
 
                 String equationText = equation.getText().toString();
                 char lastChar = equationText.charAt(equationText.length() - 1);
@@ -283,17 +246,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 setPlaceHolders("/");
-
-//                if(!numTemp.toString().isEmpty()) {
-//                    result = calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op) ;
-//                    numberPlaceHolder.setText(String.valueOf(result));
-//
-//                    numRes = String.valueOf(result);
-//                    numTemp = "";
-//                    result = (double) 0;
-//                }
-//
-//                op = "/";
             }
         });
 
@@ -301,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String expression = equation.getText().toString();
+
                 if (expression.isEmpty() || isOperator(expression.charAt(expression.length() - 1))) {
                     return;
                 }
@@ -312,30 +265,25 @@ public class MainActivity extends AppCompatActivity {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                equation.setText("");
-                numberPlaceHolder.setText("");
-                numRes = "";
-                numTemp = "";
-                op = "";
-//                result = null;
-
-                numbersStack.clear();
-                operationsStack.clear();
+                clearAll();
             }
         });
     }
 
-    // Click 1 : equation text "1" && store at numA
-    // Click 2 : concat text "2" at equation && concatenate at numA; "1" + "2" = "12"
-    // Click + : concat text "+" at equation && store at op
-    // Click - : update/change the last index of equation to "-" && change op
-    // Click 3 :
-
     private void setPlaceHolders(String str) {
         // first number
-        if(op.isEmpty() && numTemp.isEmpty() && !isOperator(str.charAt(0))) {
-            if(numRes.contains(".") && str.equals(".")) {
-                return;
+        if(op.isEmpty() && !isOperator(str.charAt(0))) {
+            if(str.equals(".") && !numRes.isEmpty()) {
+                if(numRes.charAt(numRes.length() - 1) == '.') {
+                    equation.setText(equation.getText().toString().substring(0, equation.length() - 1));
+                    numberPlaceHolder.setText(numberPlaceHolder.getText().toString().substring(0, numberPlaceHolder.length() - 1));
+                    numRes = numRes.substring(0, numRes.length() - 1);
+
+                    return;
+                }
+                if(numRes.contains(".")) {
+                    return;
+                }
             }
             numRes = (numRes + str);
             numberPlaceHolder.setText(numRes);
@@ -345,17 +293,28 @@ public class MainActivity extends AppCompatActivity {
 
         // second number onwards or operation
         if(isOperator(str.charAt(0))) {
-            op = str;
             numRes = numberPlaceHolder.getText().toString();
             numTemp = "";
             op = str;
-        } else if (!isOperator(str.charAt(0))) {
-            if(numTemp.contains(".") && str.equals(".")) {
-                return;
+        } else {
+            if(str.equals(".") && !numTemp.isEmpty()) {
+                if(numTemp.charAt(numTemp.length() - 1) == '.') {
+                    equation.setText(equation.getText().toString().substring(0, equation.length() - 1));
+                    numTemp = numTemp.substring(0, numTemp.length() - 1);
+                    calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op);
+                    return;
+                }
+                if(numTemp.contains(".")) {
+                    return;
+                }
             }
 
             numTemp = (numTemp + str);
-            calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op);
+
+            if(!str.equals(".")) {
+                calculateForInline(Double.parseDouble(numRes), Double.parseDouble(numTemp), op);
+            }
+
             equation.setText(equation.getText() + str);
         }
     }
@@ -373,12 +332,12 @@ public class MainActivity extends AppCompatActivity {
                 temp = num1 * num2;
                 break;
             case "/":
-                try {
+//                if (num2 != 0) {
                     temp = num1 / num2;
-                } catch (ArithmeticException a) {
-                    numberPlaceHolder.setText("MATH ERROR");
-                    return;
-                }
+//                } else {
+//                    numberPlaceHolder.setText("MATH ERROR");
+//                    return;
+//                }
                 break;
         }
         numberPlaceHolder.setText(String.valueOf(temp));
@@ -390,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
 
         int n = expression.length();
         int i = 0;
+
         while (i < n) {
             if (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.') {
                 StringBuilder num = new StringBuilder();
@@ -426,14 +386,24 @@ public class MainActivity extends AppCompatActivity {
         return (op1 != '*' && op1 != '/');
     }
 
+    private void clearAll() {
+        equation.setText("");
+        numberPlaceHolder.setText("");
+        numRes = "";
+        numTemp = "";
+        op = "";
+        numbersStack.clear();
+        operationsStack.clear();
+    }
+
     private void performOperation() {
         if (numbersStack.size() < 2 || operationsStack.isEmpty()) {
             return;
         }
 
-        double b = numbersStack.pop();
-        double a = numbersStack.pop();
-        char operation = operationsStack.pop();
+        Double b = numbersStack.pop();
+        Double a = numbersStack.pop();
+        Character operation = operationsStack.pop();
 
         double res = 0;
         switch (operation) {
@@ -447,11 +417,12 @@ public class MainActivity extends AppCompatActivity {
                 res = a * b;
                 break;
             case '/':
-                if (b != 0) {
+//                if (b != 0) {
                     res = a / b;
-                } else {
-                    numberPlaceHolder.setText("MATH ERROR");
-                }
+//                } else {
+//                    numberPlaceHolder.setText("MATH ERROR");
+//                    return;
+//                }
                 break;
         }
         numbersStack.push(res);
